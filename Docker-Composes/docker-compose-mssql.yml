@@ -23,3 +23,23 @@ services:
             # O segundo 5432 é a porta dentro do container;
             # Tradução: Se você abrir um software como o DBeaver ou o PGAdmin no seu PC, você vai apontar para localhost:5432
             - "1433:1433"
+
+    api:
+        build:
+        context: ./LibraryManager.API
+        container_name: library_api
+        ports:
+            - "5000:8080"
+        environment:
+            - ConnectionStrings__DefaultConnection=Server=db;Database=LibraryManagerDB;User Id=sa;Password=SuaSenha@Forte2026;TrustServerCertificate=True;
+        depends_on:
+            - db
+
+    ui:
+        build:
+        context: ./LibraryManager.UI
+        container_name: library_ui
+        ports:
+            - "4200:80" # Acessa o Angular em localhost:4200
+        depends_on:
+            - api

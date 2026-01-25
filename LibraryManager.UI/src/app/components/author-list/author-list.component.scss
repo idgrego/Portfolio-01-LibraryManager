@@ -1,0 +1,75 @@
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    min-width: 400px;
+}
+
+.styled-table thead tr {
+    background-color: #3498db;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #f1f7fd;
+    transition: 0.3s;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #3498db;
+}
+
+/* Estilização dos Botões */
+button {
+    padding: 6px 12px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-edit {
+    background-color: #f1c40f;
+    color: #000;
+}
+
+.btn-delete {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+button:hover {
+    opacity: 0.8;
+}

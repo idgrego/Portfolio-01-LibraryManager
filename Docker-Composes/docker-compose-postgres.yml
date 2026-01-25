@@ -15,7 +15,7 @@ services:
             # neste formato o hífen é necessário e utiliza-se o '=' para atribuição do valor (sem espaço)
             - POSTGRES_USER=sa # ........................ nome do superadmin
             - POSTGRES_PASSWORD=SuaSenha@Forte2026 # .............. senha do superadmin
-            - POSTGRES_DB=LibraryManagerDb # ................ nome do banco de dados que será criado automaticamente assim que o container subir
+            - POSTGRES_DB=LibraryManagerDB # ................ nome do banco de dados que será criado automaticamente assim que o container subir
         ports:
             # MAPEAMENTO DE PORTAS. 
             # O primeiro 5432 é a porta no seu computador (host); 
@@ -43,6 +43,29 @@ services:
         depends_on:
             - db
 
+    api:
+        build:
+        context: ./LibraryManager.API
+        container_name: library_api
+        ports:
+            - "5000:8080"
+        environment:
+            - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=LibraryManagerDb;Username=sa;Password=SuaSenha@Forte2026;
+        depends_on:
+            - db
+
+    ui:
+        build:
+        context: ./LibraryManager.UI
+        container_name: library_ui
+        ports:
+            - "4200:80" # Acessa o Angular em localhost:4200
+        depends_on:
+            - api
+
 volumes:
     # Aqui você apenas declara o volume postgres_data como um recurso gerenciado pelo Docker. 
-    postgres_data: # ....................................... Isso garante que, mesmo que você pare ou apague o container, seus livros e dados continuem salvos no seu disco
+    postgres_data:
+        # ....................................... Isso garante que, mesmo que você pare ou apague o container, seus livros e dados continuem salvos no seu disco
+
+

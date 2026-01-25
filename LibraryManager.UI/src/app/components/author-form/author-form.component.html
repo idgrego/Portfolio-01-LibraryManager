@@ -1,0 +1,20 @@
+<div class="container form-container">
+    <h3>➕ Novo Autor</h3>
+    <form [formGroup]="authorForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="name">Nome do Autor:</label>
+            <input id="name" type="text" formControlName="name" placeholder="Digite o nome completo"
+                [class.is-invalid]="authorForm.get('name')?.invalid && authorForm.get('name')?.touched">
+
+            @if(authorForm.get('name')?.invalid && authorForm.get('name')?.touched){
+            <div class="error-msg">
+                O nome é obrigatório (mínimo 3 caracteres; máx 100 caracteres).
+            </div>
+            }
+        </div>
+
+        <button type="submit" [disabled]="authorForm.invalid" class="btn-save">
+            Salvar Autor
+        </button>
+    </form>
+</div>

@@ -53,8 +53,6 @@ docker-compose up -d --build
 * **API (Swagger):** `http://localhost:5000/swagger`
 * **Banco de Dados:** `localhost,1433` (Login: `sa` / Senha no `.yml`)
 
-
-
 ---
 
 ## 🏗️ Estrutura do Projeto
@@ -62,7 +60,7 @@ docker-compose up -d --build
 ```text
 Portifolio-01-LibraryManager/
 ├── LibraryManager.API/      # Back-end .NET 8
-├── LibraryManager-UI/       # Front-end Angular
+├── LibraryManager.UI/       # Front-end Angular
 └── docker-compose.yml       # Orquestração do ambiente
 
 ```
