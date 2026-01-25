@@ -1,0 +1,25 @@
+# > docker compose -f docker-compose-mssql.yml up -d  # sob os serviços
+# > docker compose -f docker-compose-mssql.yml stop   # para os serviços
+# > docker compose -f docker-compose-mssql.yml down   # para e apaga os serviços
+# > docker logs library_db_mssql # mostra os logs do container
+
+services:
+    # ................................................ bloco de serviços
+    db:
+        # 'db' é nome interno do serviço. outros containers na mesma rede podem se referir a este mesmo banco usando apenas o nome 'db'
+        image: mcr.microsoft.com/mssql/server:2022-latest # define qual imagem o Docker deve baixar do Docker Hub. No caso é a versão mais recente do (latest) do Postgres oficial
+        container_name: library_db_mssql # Dá um nome fixo ao container quando ele estiver rodando. Se você não colocar isso, o Docker gera um nome aleatório (tipo projeto_db_1).
+        environment:
+            # ..................................... O PostgreSQL precisa de algumas informações iniciais para criar o banco. Essas informações são passadas através de variáveis de ambiente.
+            # observe que aqui utilizamos o formato de lista.
+            # neste formato o hífen é necessário e utiliza-se o '=' para atribuição do valor (sem espaço)
+            # O SQL Server utiliza o usuário padrão sa. O banco precisa ser criado via código
+            - ACCEPT_EULA=Y
+            - MSSQL_PID=Developer
+            - MSSQL_SA_PASSWORD=SuaSenha@Forte2026 # .............. senha do superadmin
+        ports:
+            # MAPEAMENTO DE PORTAS. 
+            # O primeiro 5432 é a porta no seu computador (host); 
+            # O segundo 5432 é a porta dentro do container;
+            # Tradução: Se você abrir um software como o DBeaver ou o PGAdmin no seu PC, você vai apontar para localhost:5432
+            - "1433:1433"

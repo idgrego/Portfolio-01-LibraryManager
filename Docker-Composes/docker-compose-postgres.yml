@@ -1,0 +1,48 @@
+# > docker compose -f docker-compose-postgres.yml up -d  # sob os serviços
+# > docker compose -f docker-compose-postgres.yml stop   # para os serviços
+# > docker compose -f docker-compose-postgres.yml down   # para e apaga os serviços
+# > docker logs library_db_pg # mostra os logs do container
+
+services:
+    # ................................................ bloco de serviços
+    db:
+        # 'db' é nome interno do serviço. outros containers na mesma rede podem se referir a este mesmo banco usando apenas o nome 'db'
+        image: postgres:17 # define qual imagem o Docker deve baixar do Docker Hub. No caso é a versão mais recente do (latest) do Postgres oficial
+        container_name: library_db_pg # Dá um nome fixo ao container quando ele estiver rodando. Se você não colocar isso, o Docker gera um nome aleatório (tipo projeto_db_1).
+        environment:
+            # ..................................... O PostgreSQL precisa de algumas informações iniciais para criar o banco. Essas informações são passadas através de variáveis de ambiente.
+            # observe que aqui utilizamos o formato de lista.
+            # neste formato o hífen é necessário e utiliza-se o '=' para atribuição do valor (sem espaço)
+            - POSTGRES_USER=sa # ........................ nome do superadmin
+            - POSTGRES_PASSWORD=SuaSenha@Forte2026 # .............. senha do superadmin
+            - POSTGRES_DB=LibraryManagerDb # ................ nome do banco de dados que será criado automaticamente assim que o container subir
+        ports:
+            # MAPEAMENTO DE PORTAS. 
+            # O primeiro 5432 é a porta no seu computador (host); 
+            # O segundo 5432 é a porta dentro do container;
+            # Tradução: Se você abrir um software como o DBeaver ou o PGAdmin no seu PC, você vai apontar para localhost:5432
+            - 5432:5432
+        volumes:
+            # PERSISTÊNCIA DE DADOS. Containers são "efêmeros" por padrão (se você deletar o container, os dados somem). Para evitar isso, usamos volumes:
+            # a instrução abaixo diz ao Docker para pegar a pasta onde o Postgres guarda os dados (dentro do container) e espelhar em um volume seguro.
+            - postgres_data:/var/lib/postgresql
+
+    pgadmin:
+        image: dpage/pgadmin4 # carrega a imagem do pgAdmin
+        container_name: library_pgadmin # Dá um nome fixo ao container quando ele estiver rodando.
+        environment:
+            # observe que aqui utilizamos o formato de dicionário.
+            # neste formato não deve-se usar o hífen e utiliza-se o ':' para atribuição do valor
+            PGADMIN_DEFAULT_EMAIL: admin@admin.com
+            PGADMIN_DEFAULT_PASSWORD: admin
+        ports:
+            # MAPEAMENTO DE PORTAS. 
+            # O primeiro 8080 é a porta no seu computador (host); 
+            # O segundo 80 é a porta dentro do container;
+            - "8080:80" # Acesse via http://localhost:8080
+        depends_on:
+            - db
+
+volumes:
+    # Aqui você apenas declara o volume postgres_data como um recurso gerenciado pelo Docker. 
+    postgres_data: # ....................................... Isso garante que, mesmo que você pare ou apague o container, seus livros e dados continuem salvos no seu disco
