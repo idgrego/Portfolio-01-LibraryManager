@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Book, BookCreate } from "../models/book.model";
+import { Book, BookCreate, BookUpdate } from "../models/book.model";
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -11,8 +11,8 @@ export class BookService {
 
     constructor(private http: HttpClient) { }
 
-    getBooks(): Observable<Book[]> {
-        return this.http.get<Book[]>(this.apiURL);
+    getBooks(includeAuthor: boolean = true): Observable<Book[]> {
+        return this.http.get<Book[]>(`${this.apiURL}${includeAuthor ? '?includeAuthor=true' : ''}`);
     }
 
     getBookById(id: number): Observable<Book> {
@@ -23,7 +23,7 @@ export class BookService {
         return this.http.post<Book>(this.apiURL, book);
     }
 
-    updateBook(id:number, book:Book): Observable<any> {
+    updateBook(id:number, book:BookUpdate): Observable<any> {
         return this.http.put<any>(`${this.apiURL}/${id}`, book);
     }
 

@@ -4,8 +4,6 @@ namespace LibraryManager.API.DTOs
 {
     public class BookDtoCreate
     {
-        public int Id { get; set; }
-
         [Required(ErrorMessage = "O título é obrigatório")]
         public string Title { get; set; } = string.Empty;
 
@@ -15,6 +13,7 @@ namespace LibraryManager.API.DTOs
         [Required(ErrorMessage ="O ID do autor é obrigatório")]
         public int AuthorId { get; set; }
 
+        [Required(ErrorMessage = "Data de publicação é obrigatória")]
         public DateTime PublishedDate { get; set; }
     }
 }

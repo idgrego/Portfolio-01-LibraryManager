@@ -1,11 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { Author } from '../../models/author.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthorService } from '../../services/author.service';
-import { DialogService } from '../../components/dialog-confirm/dialog.service';
+import { DialogErrorData, DialogService } from '../../components/dialog-confirm/dialog.service';
 
 @Component({
   selector: 'app-author-form',
@@ -15,8 +15,6 @@ import { DialogService } from '../../components/dialog-confirm/dialog.service';
   styleUrl: './author-form.component.scss'
 })
 export class AuthorFormComponent implements OnInit {
-
-  @Output() authorCreated = new EventEmitter();
 
   toEdit: Author | null = null;
   authorForm: FormGroup
@@ -78,15 +76,24 @@ export class AuthorFormComponent implements OnInit {
       this.authorService.updateAuthor(this.toEdit.id, toSave)
         .subscribe({
           next: (res) => this.onCancel(),
-          error: (err) => this.dialogService.showError({ title: 'Updating author failed' }, err)
+          error: (err) => this.handleError(err, 'Updating author failed')
         })
 
     } else
       this.authorService.createAuthor(this.authorForm.value)
         .subscribe({
           next: (res) => this.onCancel(),
-          error: (err) => this.dialogService.showError({ title: 'Creating author failed' }, err)
+          error: (err) => this.handleError(err, 'Creating author failed')
         })
+  }
+
+  private handleError(err: any, title: string) {
+    const data: DialogErrorData = { title }
+            
+    if (err.error.detail.includes('IX_Authors_Name'))
+      data.message = 'Author already exists'
+
+    this.dialogService.showError(data, err)
   }
 
 }

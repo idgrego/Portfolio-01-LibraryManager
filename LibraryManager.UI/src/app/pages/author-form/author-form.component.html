@@ -1,6 +1,10 @@
 <div class="content-wrapper">
     <div class="header-list">
-        <h2>Create new author</h2>
+        @if(toEdit){
+            <h2>Edit the author</h2>
+        }@else{
+            <h2>Create new author</h2>
+        }
         <button class="btn-cancel" (click)="onCancel()">Back to list</button>
     </div>
     <div class="container">

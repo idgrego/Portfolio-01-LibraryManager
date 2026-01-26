@@ -31,18 +31,18 @@ export class DialogService {
 
     showError(data: DialogErrorData, err: any, printConsole = true) {
         
-        const message = err?.error?.detail ?? err?.message
+        const message = data.message ?? err?.error?.detail ?? err?.message
 
         this.show({
             title: data.title,
-            isNotification: data.isNotification ?? true,
-            confirmText: data.confirmText ?? 'Got it',
-            cancelText: data.cancelText ?? 'Cancel',
+            isNotification: true,
+            confirmText: '',
+            cancelText: data.cancelText ?? 'Got it',
             message: (message?.length > 1000 ? message.substring(0, 1000) + '...' : message),
           })
 
         if (printConsole) 
-            console.error('Error fetching authors:', err);
+            console.error(data.title, err);
     }
 }
 
@@ -59,4 +59,6 @@ export interface DialogErrorData {
     isNotification?: boolean
     confirmText?: string
     cancelText?: string
+    message?: string
+
 }

@@ -1,1 +1,43 @@
-<p>book-list works!</p>
+<div class="content-wrapper">
+    <div class="header-list">
+        <h2>Books</h2>
+        <button class="btn-primary" routerLink="/books/new">Add book</button>
+    </div>
+    <div class="container">
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Published</th>
+                    <th>Book</th>
+                    <th>Author</th>
+                    <th style="text-align: center;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (book of books; track book.id) {
+                <tr>
+                    <td class="column-published">{{ book.publishedDate | date: 'longDate' }}</td>
+                    <td class="column-title">{{ book.title}}<br>{{ book.isbn}}</td>
+                    <td class="column-author">{{ book.authorName }}</td>
+                    <td class="column-cmd">
+                        <button class="btn-edit" [routerLink]="['/books/edit', book.id]">Edit</button>
+                        <button class="btn-delete" (click)="confirmDelete(book)">Delete</button>
+                    </td>
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="2" style="text-align: center;">Empty list. Click '<b>Add book</b>' button to start.</td>
+                </tr>
+                }
+            </tbody>
+            <footer>
+                <tr>
+                    <td colspan="2" style="display: flex; justify-content: right; width: 100%;">
+                        <button class="btn-refresh" (click)="loadBooks()">Refresh</button>
+                    </td>
+                </tr>
+            </footer>
+        </table>
+    </div>
+</div>
+    

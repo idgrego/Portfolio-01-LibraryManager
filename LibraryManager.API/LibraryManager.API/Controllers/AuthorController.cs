@@ -8,6 +8,7 @@ namespace LibraryManager.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Produces("application/json")] // Define que o retorno será JSON
     public class AuthorController : ControllerBase
     {
         private readonly IAuthorRepository _authorRepository;
@@ -17,7 +18,6 @@ namespace LibraryManager.API.Controllers
         }
 
         [HttpGet]
-        [Produces("application/json")] // Define que o retorno será JSON
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthorDto[]))]
         public async Task<ActionResult<IEnumerable<AuthorDto>>> GetAuthors([FromQuery] bool includeBooks = false, CancellationToken cancellationToken = default)
         {
@@ -38,10 +38,9 @@ namespace LibraryManager.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [Produces("application/json")] // Define que o retorno será JSON
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthorDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<AuthorDto>> GetAuthor(int id, CancellationToken cancellationToken = default)
+        public async Task<ActionResult<AuthorDto>> GetAuthor([FromRoute] int id, CancellationToken cancellationToken = default)
         {
             var author = await this._authorRepository.GetByIdAsync(id, new[] { "Books" }, cancellationToken);
 
@@ -63,14 +62,12 @@ namespace LibraryManager.API.Controllers
         }
 
         [HttpPost]
-        [Consumes("application/json")] // Define que o corpo da requisição deve ser JSON
-        [Produces("application/json")] // Define que o retorno será JSON
+        [Consumes(typeof(AuthorDtoCreate), "application/json")] // Define que o corpo da requisição deve ser JSON
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(AuthorDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<AuthorDto>> CreateAuthor(AuthorDtoCreate data, CancellationToken cancellationToken = default) {
-            Debug.WriteLine($"CreateAuthor: Name:{data?.Name}");
-            var author = new Author { Name = data?.Name ?? "Não informado" };
+        public async Task<ActionResult<AuthorDto>> CreateAuthor([FromBody] AuthorDtoCreate data, CancellationToken cancellationToken = default) {
+            var author = new Author { Name = data.Name };
             await this._authorRepository.AddAsync(author, cancellationToken);
             var dto = new AuthorDto {
                 Id = author.Id,
@@ -82,12 +79,12 @@ namespace LibraryManager.API.Controllers
         }
 
         [HttpPut("{id}")]
-        [Consumes("application/json")] // Define que o corpo da requisição deve ser JSON
+        [Consumes(typeof(AuthorDto), "application/json")] // Define que o corpo da requisição deve ser JSON
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateAuthor(int id, AuthorDto data, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateAuthor([FromRoute]int id, [FromBody]AuthorDto data, CancellationToken cancellationToken = default)
         {
             if (id != data.Id)
                 return BadRequest("O ID no corpo de requisição não coincide com o ID da URL.");
@@ -105,7 +102,7 @@ namespace LibraryManager.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteAuthor(int id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DeleteAuthor([FromRoute]int id, CancellationToken cancellationToken = default)
         {
             var author = await this._authorRepository.GetByIdAsync(id, null, cancellationToken);
             if (author == null) return NotFound();

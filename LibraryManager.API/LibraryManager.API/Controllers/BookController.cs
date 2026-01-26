@@ -7,6 +7,7 @@ namespace LibraryManager.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Produces("application/json")]
     public class BookController : ControllerBase
     {
         private readonly IAuthorRepository _authorRepository;
@@ -19,6 +20,7 @@ namespace LibraryManager.API.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BookDto[]))]
         public async Task<ActionResult<IEnumerable<Book>>> GetBooks([FromQuery] bool includeAuthor = false) {
             var includes = includeAuthor ? new[] { "Author" } : null;
             var books = await this._bookRepository.GetAllAsync(includes: includes);
@@ -27,6 +29,7 @@ namespace LibraryManager.API.Controllers
                 Id = i.Id,
                 Title = i.Title,
                 ISBN = i.ISBN,
+                PublishedDate = i.PublishedDate,
                 AuthorId = i.AuthorId,
                 AuthorName = i.Author?.Name ?? (includeAuthor ? "Autor não informado" : string.Empty)
             });
@@ -34,7 +37,9 @@ namespace LibraryManager.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Book?>> GetBook(int id) { 
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BookDto[]))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Book?>> GetBook([FromRoute]int id) { 
             var book = await this._bookRepository.GetByIdAsync(id, new[] { "Author" });
 
             if (book == null) return NotFound();
@@ -44,6 +49,7 @@ namespace LibraryManager.API.Controllers
                 Id = book.Id,
                 Title = book.Title,
                 ISBN = book.ISBN,
+                PublishedDate = book.PublishedDate,
                 AuthorId = book.AuthorId,
                 AuthorName = book.Author?.Name ?? "Autor não informado"
             };
@@ -52,7 +58,10 @@ namespace LibraryManager.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Book>> CreateBook(BookDtoCreate data) {
+        [Consumes(typeof(BookDtoCreate), "application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BookDto))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<BookDto>> CreateBook([FromBody] BookDtoCreate data) {
 
             var author = await this._authorRepository.GetByIdAsync(data.AuthorId);
             if (author == null) return BadRequest("Autor informado não existe");
@@ -65,10 +74,15 @@ namespace LibraryManager.API.Controllers
             };
 
             await this._bookRepository.AddAsync(book);
-            var dto = new BookDto {
+
+            var dto = new BookDto
+            {
                 Id = book.Id,
                 Title = book.Title,
                 ISBN = book.ISBN,
+                PublishedDate = book.PublishedDate,
+                AuthorId = book.AuthorId,
+                AuthorName = author.Name
             };
             
             // CreatedAtAction: No POST, retornamos o status 201 Created e incluímos no cabeçalho da resposta o link para buscar o autor recém-criado
@@ -76,7 +90,11 @@ namespace LibraryManager.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBook(int id, BookDto data)
+        [Consumes(typeof(BookDto), "application/json")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateBook([FromRoute]int id, [FromBody]BookDto data)
         {
             if (id != data.Id)
                 return BadRequest("O ID no corpo de requisição não coincide com o ID da URL.");
@@ -101,7 +119,9 @@ namespace LibraryManager.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBook(int id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteBook([FromRoute]int id)
         {
             var book = await this._bookRepository.GetByIdAsync(id);
             if (book == null) return NotFound();

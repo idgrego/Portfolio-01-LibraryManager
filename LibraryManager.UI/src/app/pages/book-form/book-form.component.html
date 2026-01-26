@@ -1,1 +1,62 @@
-<p>book-form works!</p>
+<div class="content-wrapper">
+    <div class="header-list">
+        @if(toEdit){
+            <h2>Edit the book</h2>
+        }@else{
+            <h2>Create new book</h2>
+        }
+        <button class="btn-cancel" (click)="onCancel()">Back to list</button>
+    </div>
+    <div class="container">
+        <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+            
+            <div class="form-group">
+                <label>Title:</label>
+                <input type="text" formControlName="title" placeholder="Ex: Clean Architecture" required="required"
+                [class.is-invalid]="bookForm.get('title')?.invalid && bookForm.get('title')?.touched">
+                @if (bookForm.get('title')?.invalid && bookForm.get('title')?.touched) {
+                    <small class="error-msg">Title is required.</small>
+                }
+            </div>
+
+            <div class="form-group">
+                <label>ISBN:</label>
+                <input type="text" formControlName="isbn" placeholder="Ex: 978-0134494166" required="required"
+                [class.is-invalid]="bookForm.get('isbn')?.invalid && bookForm.get('isbn')?.touched">
+                @if (bookForm.get('isbn')?.invalid && bookForm.get('isbn')?.touched) {
+                    <small class="error-msg">ISBN is required (13 digits).</small>
+                }
+            </div>
+
+            <div class="form-group">
+                <label>Published date:</label>
+                <input 
+                    type="date" 
+                    formControlName="publishedDate" required="required"
+                    [class.is-invalid]="bookForm.get('publishedDate')?.invalid && bookForm.get('publishedDate')?.touched">
+            
+                @if (bookForm.get('publishedDate')?.invalid && bookForm.get('publishedDate')?.touched) {
+                    <small class="error-msg">A data de publicação é obrigatória.</small>
+                }
+            </div>
+
+            <div class="form-group">
+                <label>Author:</label>
+                <select formControlName="authorId" required="required">
+                    <option value="" disabled selected>Select the author...</option>
+                    @for (author of authors; track author.id) {
+                    <option [value]="author.id">{{ author.name }}</option>
+                    }
+                </select>
+                @if (authors.length === 0) {
+                    <small class="warning">⚠️ Add at least one author before adding a book.</small>
+                }
+            </div>
+        
+            <div class="form-actions">
+                <button type="button" class="btn-reset" (click)="onReset()">Reset</button>
+                <button type="submit" class="btn-save" [disabled]="bookForm.invalid">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

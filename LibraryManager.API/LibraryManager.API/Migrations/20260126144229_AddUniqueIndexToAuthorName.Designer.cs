@@ -3,6 +3,7 @@ using System;
 using LibraryManager.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LibraryManager.API.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    partial class LibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260126144229_AddUniqueIndexToAuthorName")]
+    partial class AddUniqueIndexToAuthorName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,29 +61,18 @@ namespace LibraryManager.API.Migrations
 
                     b.Property<string>("ISBN")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("PublishedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .UseCollation("ignore_case_and_accents");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
-
-                    b.HasIndex("ISBN")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Book_ISBN_Unique");
-
-                    b.HasIndex("Title", "AuthorId")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Book_Title_AuthorId_Unique");
 
                     b.ToTable("Books");
                 });
