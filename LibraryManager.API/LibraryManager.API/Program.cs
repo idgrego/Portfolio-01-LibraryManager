@@ -4,6 +4,7 @@ using LibraryManager.API.Data;
 using LibraryManager.API.Interfaces;
 using LibraryManager.API.Middlewares;
 using LibraryManager.API.Repositories;
+using LibraryManager.API.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -44,6 +45,8 @@ namespace LibraryManager.API
             // configurando as injeções de dependências
             builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
             builder.Services.AddScoped<IBookRepository, BookRepository>();
+            builder.Services.AddScoped<IAuthorService, AuthorService>();
+            builder.Services.AddScoped<IBookService, BookService>();
 
             builder.Services.AddControllers()
                 .AddJsonOptions(options =>
