@@ -1,2 +1,10 @@
-<app-author-form></app-author-form>
-<app-author-list></app-author-list>
+<div class="background" [ngClass]="bgImageClass">
+  <div class="overlay"></div>
+</div>
+
+<main class="main-content">
+  <app-header-menu></app-header-menu>
+  <router-outlet></router-outlet>
+</main>
+
+<app-dialog-confirm></app-dialog-confirm>

@@ -32,7 +32,7 @@ namespace LibraryManager.API.Repositories
 
             // deixar esse por último, não é obrigatório mas melhora a legibilidade
             if (withNoTracking)
-                query = query.AsNoTracking<Book>();
+                query = query.AsNoTracking();
 
             return await query.ToListAsync(cancellationToken);
         }
@@ -57,7 +57,7 @@ namespace LibraryManager.API.Repositories
              */
 
             // Book? teste = await this._context.Books.FindAsync(id);
-            return await query.FirstOrDefaultAsync<Book>(i => i.Id == id, cancellationToken);
+            return await query.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
         }
 
         public async Task AddAsync(Book Book, CancellationToken cancellationToken = default)

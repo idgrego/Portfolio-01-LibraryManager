@@ -1,0 +1,41 @@
+<div class="content-wrapper">
+    <div class="header-list">
+        <h2>Authors</h2>
+        <button class="btn-primary" routerLink="/authors/new">Add author</button>
+    </div>
+    <div class="container">
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <!-- <th>ID</th> -->
+                    <th>Author</th>
+                    <th style="text-align: center;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (author of authors; track author.id) {
+                <tr>
+                    <!-- <td>{{ author.id }}</td> -->
+                    <td class="column-name">{{ author.name }}</td>
+                    <td class="column-cmd">
+                        <button class="btn-edit" [routerLink]="['/authors/edit', author.id]">Edit</button>
+                        <button class="btn-delete" (click)="confirmDelete(author)">Delete</button>
+                    </td>
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="2" style="text-align: center;">Empty list. Click '<b>Add author</b>' button to start.</td>
+                </tr>
+                }
+            </tbody>
+            <footer>
+                <tr>
+                    <td colspan="2" style="display: flex; justify-content: right; width: 100%;">
+                        <button class="btn-refresh" (click)="loadAuthors()">Refresh</button>
+                    </td>
+                </tr>
+            </footer>
+        </table>
+    </div>
+</div>
+    

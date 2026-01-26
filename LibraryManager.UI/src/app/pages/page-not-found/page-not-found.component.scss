@@ -1,0 +1,41 @@
+@import 'styles/variables';
+
+.not-found-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+}
+
+.message {
+    margin-top: 10vh;
+    text-align: center;
+    
+    h1 {
+        font-size: 8rem;
+        margin: 0;
+        font-weight: bold;
+        color: $principal-texto;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    h2 {
+        font-size: 2.5rem;
+        margin: 0;
+        color: #fff; /* Texto branco para melhor contraste */
+    }
+
+    p {
+        font-size: 1.2rem;
+        margin-top: 10px;
+        color: $principal-texto; /* Azul claro */
+    }
+}
+
+.navigation-buttons {
+    position: absolute;
+    top: 66%; /* Posiciona a 2/3 da altura */
+    display: flex;
+    gap: 20px;
+}

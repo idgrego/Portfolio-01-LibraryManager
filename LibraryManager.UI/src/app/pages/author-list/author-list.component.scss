@@ -1,0 +1,80 @@
+@import 'styles/variables';
+
+.content-wrapper {
+    width: 100%;
+    max-width: 900px;
+    margin:auto;
+    
+}
+
+.header-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10px;
+}
+
+.container {
+    margin: 0; /* Margem controlada pelo wrapper */
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: rgba(0, 0, 0, 0.4); /* Fundo ESCURO translúcido */
+    backdrop-filter: blur(10px); /* Efeito de desfoque no fundo */
+    color: #f0f0f0; /* Texto claro para leitura */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-height: calc(100dvh - 225px);
+    overflow-y: auto;
+}
+
+h2 {
+    color: $principal-texto; /* Texto claro para contrastar com o overlay escuro */
+    font-size: 2.5rem;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    border: none;
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    min-width: 400px;
+}
+
+.styled-table thead tr {
+    background-color: rgba(255, 255, 255, 0.1); /* Cabeçalho sutil translúcido */
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 10px 5px;
+    color: #f0f0f0;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: transparent; /* Removemos as listras para um look mais limpo */
+}
+
+.styled-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.08); /* Destaque suave no hover */
+    transition: 0.3s;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: none; /* Remove a borda final para um visual mais leve */
+}
+
+.column-name{
+    width: 100%;
+}
+.column-cmd{
+    min-width: 155px;
+    text-align: center;
+}

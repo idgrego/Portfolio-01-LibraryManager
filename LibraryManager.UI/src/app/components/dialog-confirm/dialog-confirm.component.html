@@ -1,0 +1,20 @@
+@if(isVisible) {
+    <div class="background">
+        <div class="content-wrapper">
+            <div class="header">
+                <h2>{{title}}</h2>
+            </div>
+            <div class="message">
+                <p>{{message}}</p>
+            </div>
+            <div class="actions">
+                @if(isNotification) {
+                    <button type="button" class="btn-save" (click)="onCancel()">{{cancelText}}</button>
+                } @else {
+                    <button type="button" class="btn-cancel" (click)="onCancel()">{{cancelText}}</button>
+                    <button type="button" class="btn-save" (click)="onConfirm()">{{confirmText}}</button>
+                }
+            </div>
+        </div>
+    </div>
+}

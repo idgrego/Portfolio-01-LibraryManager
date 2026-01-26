@@ -1,0 +1,32 @@
+.bg-authors {
+  background-image: url('../assets/bg-authors.jpg');
+}
+
+.bg-books {
+  background-image: url('../assets/bg-library.jpg');
+}
+
+.bg-not-found {
+  background-image: url('../assets/bg-not-found.jpg');
+}
+
+.background {
+  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  .overlay {
+      background-color: rgba(0, 0, 0, 0.1); /* Escurece o fundo para destacar o conteúdo */
+      min-height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+  }
+}

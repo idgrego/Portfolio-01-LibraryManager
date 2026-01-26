@@ -1,1 +1,81 @@
 /* You can add global styles to this file, and also import other style files */
+/* Estilização dos Botões */
+
+@import 'styles/variables';
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    padding: 8px 18px;
+    margin-right: 5px;
+    border: 2px solid transparent; /* Borda base para evitar 'pulo' no hover */
+    border-radius: 50px; /* Botões arredondados estilo 'pill' */
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease; /* Transição suave para todas as propriedades */
+}
+
+
+/* Botões de ação primária (Adicionar, Salvar, Editar) */
+.btn-primary {
+    background-color: $principal-texto;
+    color: $principal-fundo;
+    border-color: $principal-fundo;
+
+    &:hover {
+        background-color: $principal-fundo;
+        color: $principal-texto;
+    }
+}
+
+
+.btn-delete {
+    background-color: #c0392b;
+    color: #ffffff;
+    border-color: #c0392b;
+
+    &:hover {
+        background-color: #8e2b20;
+        color: #ffffff;
+        border-color: #8e2b20;
+    }
+}
+
+.btn-edit,
+.btn-reset,
+.btn-refresh,
+.btn-cancel {
+    background-color: #95a5a6;
+    color: #ffffff;
+    border-color: #95a5a6;
+
+    &:hover {
+        background-color: #7f8c8d;
+        color: #ffffff;
+        border-color: #7f8c8d;
+    }
+}
+
+.btn-save {
+    background-color: #239d56;
+    color: #ffffff;
+    border-color: #239d56;
+
+    &:hover {
+        background-color: #1e894b;
+        color: #ffffff;
+        border-color: #1e894b;
+    }
+}
+
+
+.btn-save:disabled {
+    background-color: $esmaecido;
+    border-color: #aaa;
+    color: #6c757d;
+    cursor: not-allowed;
+    pointer-events: none; /* Impede eventos de mouse, incluindo hover */
+}

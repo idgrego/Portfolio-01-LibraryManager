@@ -1,0 +1,46 @@
+@import 'styles/variables';
+
+.background {
+  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100dvw;
+  height: 100dvh;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.2); /* Escurece o fundo para destacar o conteúdo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content-wrapper {
+    width: 100%;
+    max-width: 600px;
+
+    margin: 0; /* Margem controlada pelo wrapper */
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: rgba(150, 150, 150, 0.4); /* Fundo ESCURO translúcido */
+    backdrop-filter: blur(10px); /* Efeito de desfoque no fundo */
+    color: #f0f0f0; /* Texto claro para leitura */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    h2 {
+        color: $principal-texto; /* Texto claro para contrastar com o overlay escuro */
+        font-size: 1.3rem;
+        margin: 0;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        border: none;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: right;
+    }
+}
+
+p {
+    overflow-wrap: break-word;
+}

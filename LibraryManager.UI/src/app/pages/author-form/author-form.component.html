@@ -1,0 +1,26 @@
+<div class="content-wrapper">
+    <div class="header-list">
+        <h2>Create new author</h2>
+        <button class="btn-cancel" (click)="onCancel()">Back to list</button>
+    </div>
+    <div class="container">
+        <form [formGroup]="authorForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="name">Author's name:</label>
+                <input id="name" type="text" formControlName="name" placeholder="Type author's name"
+                    [class.is-invalid]="authorForm.get('name')?.invalid && authorForm.get('name')?.touched">
+        
+                @if(authorForm.get('name')?.invalid && authorForm.get('name')?.touched){
+                <div class="error-msg">
+                    Name is required (minimum 3 characters; maximum 100 characters).
+                </div>
+                }
+            </div>
+        
+            <div class="form-actions">
+                <button type="button" class="btn-reset" (click)="onReset()">Reset</button>
+                <button type="submit" class="btn-save" [disabled]="authorForm.invalid">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

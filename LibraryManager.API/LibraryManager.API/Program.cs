@@ -1,3 +1,5 @@
+#define POSTGRES
+
 using LibraryManager.API.Data;
 using LibraryManager.API.Interfaces;
 using LibraryManager.API.Middlewares;
@@ -32,8 +34,11 @@ namespace LibraryManager.API
             builder.Services.AddDbContextFactory<LibraryDbContext>(options =>
             {
                 string? conStr = builder.Configuration.GetConnectionString("DefaultConnection");
-                //options.UseNpgsql(conStr);
+#if POSTGRES
+                options.UseNpgsql(conStr);
+#else
                 options.UseSqlServer(conStr);
+#endif
             });
 
             // configurando as injeções de dependências

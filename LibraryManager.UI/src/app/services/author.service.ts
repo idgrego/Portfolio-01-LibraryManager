@@ -9,31 +9,14 @@ import { Author, AuthorCreate } from "../models/author.model";
 export class AuthorService {
     private apiURL = 'https://localhost:7072/api/author';
 
-
     constructor(private http: HttpClient) { }
-
-    // =====================================
-
-    readonly refreshNeeded$ = new Subject<void>();
-
-    notifyChange() {
-        setTimeout(() => {
-            this.refreshNeeded$.next();
-        }, 100)
-    }
-
-    // =====================================
-
-    readonly authorSelected$ = new Subject<Author>();
-
-    selectAuthorForEdit(author: Author) {
-        this.authorSelected$.next(author);
-    }
-
-    // =====================================
 
     getAuthors(): Observable<Author[]> {
         return this.http.get<Author[]>(this.apiURL);
+    }
+
+    getAuthorById(id: number): Observable<Author> {
+        return this.http.get<Author>(`${this.apiURL}/${id}`);
     }
 
     createAuthor(author: AuthorCreate): Observable<Author> {

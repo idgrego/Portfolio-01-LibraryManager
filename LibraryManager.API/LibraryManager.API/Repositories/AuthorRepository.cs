@@ -2,7 +2,6 @@
 using LibraryManager.API.Interfaces;
 using LibraryManager.API.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
 
 namespace LibraryManager.API.Repositories
 {
@@ -24,7 +23,7 @@ namespace LibraryManager.API.Repositories
             return query;
         }
 
-        public List<Author> GetAllSync(bool withNoTracking = true, string[]? includes = null)
+        public async Task<List<Author>> GetAllAsync(bool withNoTracking = true, string[]? includes = null, CancellationToken cancellationToken = default)
         {
             // Começamos com um IQueryable para permitir a composição da query
             IQueryable<Author> query = this._context.Authors.AsQueryable();
@@ -33,83 +32,33 @@ namespace LibraryManager.API.Repositories
 
             // deixar esse por último, não é obrigatório mas melhora a legibilidade
             if (withNoTracking)
-                query = query.AsNoTracking<Author>();
+                query = query.AsNoTracking();
 
-            return query.ToList();            
+            return await query.ToListAsync(cancellationToken);
         }
 
-        public async Task<List<Author>> GetAllAsync(bool withNoTracking = true, string[]? includes = null, CancellationToken cancellationToken = default)
-        {
-            //try
-            //{
-                // Começamos com um IQueryable para permitir a composição da query
-                IQueryable<Author> query = this._context.Authors.AsQueryable();
-
-                query = ApplyIncludes(query, includes);
-
-                // deixar esse por último, não é obrigatório mas melhora a legibilidade
-                if (withNoTracking)
-                    query = query.AsNoTracking<Author>();
-
-                return await query.ToListAsync(cancellationToken);
-            //}
-            //finally
-            //{
-            //    await this._context.DisposeAsync();
-            //}
-        }
-
-        public Author? GetByIdSync(int id, string[]? includes = null)
+        public async Task<Author?> GetByIdAsync(int id, string[]? includes = null, CancellationToken cancellationToken = default)
         {
             IQueryable<Author> query = this._context.Authors;
 
             query = ApplyIncludes(query, includes);
 
             /*
-             * Por que utilizar FirstOrDefaultAsync ao invés de FindAsync?
-             * 
-             * > Find(id): É otimizado para buscar pela Chave Primária.
-             * Se o objeto já foi carregado na memória do C# nesta mesma requisição, ele nem vai ao banco. 
-             * Ele é "fechado", não permite configurar a query (como adicionar Include).
-             * 
-             * > FirstOrDefault(x => x.Id == id): Ele sempre monta uma query SQL e a envia ao banco. 
-             * Como ele trabalha com IQueryable, ele nos dá a liberdade total para anexar Include, AsNoTracking, 
-             * ou qualquer outra configuração.
-             * 
-             */
+            * Por que utilizar FirstOrDefaultAsync ao invés de FindAsync?
+            * 
+            * > FindAsync(id): É otimizado para buscar pela Chave Primária.
+            * Se o objeto já foi carregado na memória do C# nesta mesma requisição, ele nem vai ao banco. 
+            * Ele é "fechado", não permite configurar a query (como adicionar Include).
+            * 
+            * > FirstOrDefaultAsync(x => x.Id == id): Ele sempre monta uma query SQL e a envia ao banco. 
+            * Como ele trabalha com IQueryable, ele nos dá a liberdade total para anexar Include, AsNoTracking, 
+            * ou qualquer outra configuração.
+            * 
+            */
 
-            // Author? teste = await this._context.Authors.Find(id);
-            return query.FirstOrDefault<Author?>(i => i.Id == id);
-        }
-
-        public async Task<Author?> GetByIdAsync(int id, string[]? includes = null, CancellationToken cancellationToken = default)
-        {
-            //try
-            //{
-                IQueryable<Author> query = this._context.Authors;
-
-                query = ApplyIncludes(query, includes);
-
-                /*
-                 * Por que utilizar FirstOrDefaultAsync ao invés de FindAsync?
-                 * 
-                 * > FindAsync(id): É otimizado para buscar pela Chave Primária.
-                 * Se o objeto já foi carregado na memória do C# nesta mesma requisição, ele nem vai ao banco. 
-                 * Ele é "fechado", não permite configurar a query (como adicionar Include).
-                 * 
-                 * > FirstOrDefaultAsync(x => x.Id == id): Ele sempre monta uma query SQL e a envia ao banco. 
-                 * Como ele trabalha com IQueryable, ele nos dá a liberdade total para anexar Include, AsNoTracking, 
-                 * ou qualquer outra configuração.
-                 * 
-                 */
-
-                // Author? teste = await this._context.Authors.FindAsync(id);
-                return await query.FirstOrDefaultAsync<Author>(i => i.Id == id, cancellationToken);
-            //}
-            //finally
-            //{
-            //    await this._context.DisposeAsync();
-            //}
+            // Author? teste = await this._context.Authors.FindAsync(id);
+            return await query.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
+            
         }
 
         public async Task AddAsync(Author author, CancellationToken cancellationToken)
