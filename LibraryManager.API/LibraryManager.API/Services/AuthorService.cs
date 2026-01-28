@@ -35,7 +35,7 @@ namespace LibraryManager.API.Services
         {
             var author = await this._authorRepository.GetByIdAsync(id, new[] { "Books" }, cancellationToken);
 
-            if (author == null) return null;
+            if (author == null) throw new NotFoundException(nameof(Author), id.ToString());
 
             var dto = new AuthorDto
             {

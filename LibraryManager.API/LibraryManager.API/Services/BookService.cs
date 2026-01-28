@@ -33,7 +33,7 @@ namespace LibraryManager.API.Services
 
         public async Task<BookDto?> GetBookByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            var book = await this._bookRepository.GetByIdAsync(id, new[] { "Author" });
+            var book = await this._bookRepository.GetByIdAsync(id, new[] { "Author" }, cancellationToken);
 
             if (book == null) throw new NotFoundException(nameof(Book), id.ToString());
 
@@ -52,7 +52,7 @@ namespace LibraryManager.API.Services
 
         public async Task<BookDto> CreateBookAsync(BookDtoCreate data, CancellationToken cancellationToken = default)
         {
-            var author = await this._authorRepository.GetByIdAsync(data.AuthorId);
+            var author = await this._authorRepository.GetByIdAsync(data.AuthorId, null, cancellationToken);
             if (author == null) throw new BadRequestException("Autor informado não existe");
 
             var book = new Book
