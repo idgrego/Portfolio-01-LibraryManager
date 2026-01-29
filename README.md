@@ -63,7 +63,7 @@ docker-compose up -d --build
 ## 🏗️ Estrutura do Projeto
 
 ```text
-Portifolio-01-LibraryManager/
+Portfolio-01-LibraryManager/
 ├── LibraryManager.API/      # Back-end .NET 8
 ├── LibraryManager.UI/       # Front-end Angular
 └── docker-compose.yml       # Orquestração do ambiente
