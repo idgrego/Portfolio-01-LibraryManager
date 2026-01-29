@@ -11,21 +11,24 @@ O projeto permite o cadastro de autores e livros.
 
 ### **Back-end**
 
-* **C# / .NET 8**: Framework principal.
+* **.NET 8 (C#), ASP.NET Core Web API**: Framework principal.
 * **Entity Framework Core**: Abordagem **Code First** para modelagem de dados.
-* **SQL Server**: Banco de dados relacional.
+* **Postgres**: Banco de dados relacional.
 * **Swagger/OpenAPI**: Documentação interativa da API.
 * **Middleware Customizado**: Tratamento global de erros assíncronos.
 
 ### **Front-end**
 
-* **Angular**: Framework para a interface do usuário.
-* **Nginx**: Servidor de alto desempenho para hospedar os arquivos estáticos do Angular via Docker.
+* **Angular 18+, RxJS, Reactive Forms**: Framework para a interface do usuário.
+* **SCSS & Design Moderno**: Interface estilizada com Glassmorphism (efeitos de transparência e desfoque) e design responsivo.
+
+### **Unit-tests**
+
+* **xUnit, Moq, FluentAssertions**: Para implementação de testes unitários do back-end.
 
 ### **DevOps & Infraestrutura**
 
 * **Docker & Docker Compose**: Orquestração de todo o ambiente (Banco, API e UI).
-* **Multi-stage Builds**: Dockerfiles otimizados para redução de tamanho de imagem e segurança.
 
 ---
 
@@ -42,6 +45,8 @@ cd Portifolio-01-LibraryManager
 
 
 2. **Suba os containers:**
+O projeto está configurado para rodar com Postgres. Utilize o arquivo de composição específico para subir a stack completa:
+
 ```bash
 docker-compose up -d --build
 
