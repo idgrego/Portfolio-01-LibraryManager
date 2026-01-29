@@ -74,6 +74,7 @@ Portifolio-01-LibraryManager/
 
 ## 🧠 Conceitos Aplicados
 
+* **Clean Architecture:** Estruturação do projeto visando a separação de responsabilidades, desacoplamento das regras de negócio e facilidade de manutenção.
 * **Async/Await:** Toda a comunicação entre API e Banco de Dados foi implementada de forma assíncrona para garantir escalabilidade.
 * **DTO (Data Transfer Objects):** Camada de abstração para proteger as entidades do banco e otimizar o payload JSON.
 * **Global Exception Handling:** Middleware implementado para capturar falhas e retornar mensagens padronizadas (ProblemDetails).
@@ -84,15 +85,9 @@ Portifolio-01-LibraryManager/
 ## 👤 Sobre Mim
 
 **Ivo Dias Gregorio**
-Profissional com mais de 20 anos de experiência densevolvimento de software. Especializando-se em arquitetura .NET e ecossistema Full Stack.
+Profissional com mais de 20 anos de experiência densevolvimento de software. 
+Especializando-se em arquitetura .NET e ecossistema Full Stack.
 
 * **LinkedIn:** https://www.linkedin.com/in/ivogregorio/
-* **MBA:** Desenvolvimento Full Stack - Impacta
 
----
 
-### Dica extra:
-
-Se você quiser deixar o README ainda mais "visual", você pode tirar um **print do Swagger** rodando e um **print da tela do Angular** e colocar na seção "Acesse as aplicações". Isso prova que o projeto realmente funciona!
-
-**O que você acha desse texto? Gostaria que eu adicionasse uma seção técnica mais detalhada sobre como você configurou as Migrations do Entity Framework?**
