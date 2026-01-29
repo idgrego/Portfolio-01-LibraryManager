@@ -38,8 +38,8 @@ Graças ao Docker, você não precisa instalar o SQL Server ou o .NET localmente
 
 1. **Clone o repositório:**
 ```bash
-git clone https://github.com/seu-usuario/Portifolio-01-LibraryManager.git
-cd Portifolio-01-LibraryManager
+git clone https://github.com/seu-usuario/Portfolio-01-LibraryManager.git
+cd Portfolio-01-LibraryManager
 
 ```
 
